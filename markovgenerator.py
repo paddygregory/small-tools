@@ -39,5 +39,4 @@ def generate_text(num=5):
         current = [current[-1], next_word]
     return ' '.join(results)
 
-# print(generate_text(10))
-
+print(generate_text(50))
