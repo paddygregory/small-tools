@@ -1,4 +1,7 @@
 import os
+import hashlib
+import shelve
+
 
 def walk(dirname, visit_func):
     for name in os.listdir(dirname):
@@ -8,12 +11,9 @@ def walk(dirname, visit_func):
         else:
             walk(path, visit_func)
 
-#walk('photos copy', print)
+# walk('photos', print)
 
-import hashlib 
-import shelve
-
-def is_image(path, extensions):
+def is_image(path,extensions):
     name, ext = os.path.splitext(path)
     if ext in extensions:
         return True
@@ -21,33 +21,36 @@ def is_image(path, extensions):
         return False
 
 
+# print(is_image('photos copy/chipmunk.jpg',['.jpg','.png','.gif']))
 
+import hashlib
 def md5_digest(filename):
-    data = open(filename, 'rb').read()
-    md5_hash = hashlib.md5()
-    md5_hash.update(data)
-    digest = md5_hash.hexdigest()
-    return digest
+        data = open(filename, 'rb').read()
+        md5_hash = hashlib.md5()
+        md5_hash.update(data)
+        digest = md5_hash.hexdigest()
+        return(digest)
 
-db = shelve.open('shelf', 'n')
+# print(md5_digest('photos copy/chipmunk.jpg'))
 
-def add_path(path, db):
-    digest = md5_digest(path)
-    if digest not in db:
-        db[digest] = [path]
+def add_path(path, shelf):
+    contents = md5_digest(path)
+    if contents not in shelf:
+        shelf[contents] = [path]
     else:
-        db[digest].append(path)
+        path_list = shelf[contents]
+        path_list.append(path)
+        shelf[contents] = path_list
 
-def process_path(path, extensions, db):
-    if is_image(path, extensions):
-        add_path(path, db)
+dg = shelve.open('digest_map', 'n')
 
-extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp']
-walk('photos copy', lambda path: process_path(path, extensions, db))
+def process_path(path):
+    if is_image(path,['.jpg','.jpeg','.gif']):
+        add_path(path,dg)
 
-for digest, paths in db.items():
+dg = shelve.open('digest_map', 'n')
+walk('photos copy', process_path)
+
+for digest, paths in dg.items():
     if len(paths) > 1:
         print(paths)
-
-db.close()
-
