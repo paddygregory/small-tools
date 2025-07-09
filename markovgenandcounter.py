@@ -35,4 +35,4 @@ def generate_tex(num=5):
     current = (result[-1], next_word)
     return ' '.join(result)
 
-# print(generate_tex(50))
+# print(generate_tex(15))
