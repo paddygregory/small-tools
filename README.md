@@ -1,1 +1,1 @@
-collection of small tools and working on sections of projects
+collection of small tools I use in dev projects 
