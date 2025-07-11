@@ -1,1 +1,1 @@
-collection of small tools I use in dev projects 
+collection of small tools I use for dev projects; occassional miscellaneous code.
