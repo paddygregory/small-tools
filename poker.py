@@ -96,7 +96,7 @@ class BridgeHand(Hand):
     def hc_pointcount(self):
         count = 0
         for card in self.cards:
-            rank_name = Card.rank_names[card.rank]
+            rank_name = Card.rank_names[card.rank]                 # accesses card attribute rank and then rank_names index to get the rank name
             count += BridgeHand.hcp_dict.get(rank_name, 0)         # gets value through using the key of rank_name in the hcp_dict, if not found, defaults to 0
         return count
 
