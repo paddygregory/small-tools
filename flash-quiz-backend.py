@@ -32,7 +32,7 @@ while True:
             print('correct')
     else:
             incorrect += 1
-            print(f'incorrect, the correct answer is in {card.answer}')
+            print(f'incorrect, the correct answer is {card.answer}')
     prompt1 = input(f"type 'q' to quit or 'n' to continue")
     if prompt1 == 'q':
         break
